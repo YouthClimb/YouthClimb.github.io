@@ -8,6 +8,11 @@
     height: 40px;
     line-height: 40px;
     background-color: #E3E4E5;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
 }
 
 /* 导航条中选项设置 */
@@ -90,9 +95,22 @@
 .sidebar-warpper {
     
     width: 20%;
-    height: auto;
+    height: 100%;
     background-color: #A7A7A7;
     float: left;
+    padding-bottom: 2rem;
+
+    z-index: -1;
+    /* 使得 main 高度被右边内容展示部分撑起时能够撑满 100% */
+    /* 配合下面 main 选择器使用 */
+    position: absolute;
+    top: 0;
+}
+/* 使得 main 高度被右边内容展示部分撑起时能够撑满 100% */
+/* 配合上面 position 和 top 设置使用 */
+main{
+
+    position: relative;
 }
 
 .sidebar {
@@ -119,6 +137,88 @@
 
     color: #A7A7A7;
     transition: all 1s;
+}
+
+/* -------------------- */
+
+
+/* ---------- 内容展示部分 ---------- */
+/* 内容展示容器设置 */
+.display-warpper{
+
+    width: 80%;
+    height: 1000px;
+    background-color: #E3E4E5;
+    float: right;
+}
+
+/* 每项内容的底边边距设置 */
+.display-part .dpeach{
+
+    margin-bottom: 5rem;
+}
+
+/* 展示部分与侧边栏、顶部和底部的边距 */
+.display-part{
+
+    margin: 5rem 10rem 0 10rem;
+}
+
+/* 每项内容的标题设置 */
+.display-warpper .dptitle{
+    
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+/* 对于每项内容的超链接选中后下方内容的响应 */
+.display-warpper a:hover{   
+
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    transition: all 0.5s;
+}
+
+/* 对于每项内容的超链接选中后标题的响应 */
+.display-warpper a:hover .dptitle{
+
+    font-size: 2rem;
+    transition: all 0.5s;
+}
+
+/* 使超链接撑满父元素 */
+.display-warpper a{
+
+    display: block;
+}
+
+/* 每项内容下方详情的字体和颜色 */
+.display-part .dpinfo{
+
+    font-size: 1.2rem;
+    color: #323232;
+}
+/* -------------------- */
+
+
+/* ---------- 底部 ---------- */
+/* 底部容器设置 */
+.footer-warpper{
+
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    background-color: #000;
+}
+
+/* 底部文字设置 */
+.footer{
+
+    color: #E3E4E5;
+    font-size: 1.2rem;
+    text-align: center;
 }
 
 /* -------------------- */
