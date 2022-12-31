@@ -95,12 +95,13 @@
 .sidebar-warpper {
     
     width: 20%;
-    height: 100%;
+
+    height: calc(100% - 2rem);
+    /* 这里的2rem为.sidebar 的 margin-top，减去才能正常撑满100% */
+
     background-color: #A7A7A7;
     float: left;
     padding-bottom: 2rem;
-
-    z-index: -1;
     /* 使得 main 高度被右边内容展示部分撑起时能够撑满 100% */
     /* 配合下面 main 选择器使用 */
     position: absolute;
