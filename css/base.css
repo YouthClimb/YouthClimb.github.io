@@ -1,3 +1,6 @@
+/* 用于所有网页的公共样式css文件 */
+
+/* clearfix 类，用于解决包含浮动子元素的父元素问题 */
 .clearfix::before,
 .clearfix::after{
     content: "";
@@ -5,12 +8,32 @@
     clear: both;
 }
 
+/* 对于所有网页的 body 标签样式更改 */
 body {
     font: 16px/1.5 Microsoft YaHei,Heiti SC,tahoma,arial,Hiragino Sans GB,"\5B8B\4F53",sans-serif;
     color: #333;
+    /* 设置容器最小宽度，防止网页缩小后出现异常 */
+    min-width: 1226px;
 }
 
+/* 对于所有网页的 a 标签样式更改 */
 a {
     text-decoration: none;
     color: #333;
 }
+
+/* 网页中间容器宽度限制 */
+.w {
+    /* 固定容器宽度 */
+    width: 1226px;
+    /* 设置容器居中 */
+    margin: 0 auto;
+}
+
+/* 设置文本无法被选中 */
+.unselectable {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
