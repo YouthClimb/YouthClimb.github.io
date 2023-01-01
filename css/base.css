@@ -37,4 +37,9 @@ a {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
+}
+
+main {
+    /* 网站内容少的时候用于撑起高度，看起来更好 */
+    min-height: 1000px;
+}
