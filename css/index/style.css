@@ -1,73 +1,5 @@
 /* 对于主页 index.html 的主要样式更改css文件 */
 
-/* ---------- 导航条 ---------- */
-/* 顶部导航条容器 */
-.topbar-warpper{
-
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    background-color: #E3E4E5;
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-}
-
-/* 导航条中选项设置 */
-.topbar li{
-
-    float: left;
-}
-
-/* 增加选项与左边的间距 */
-.topbar ul:first-child{
-    margin-left: 1rem;
-}
-
-/* 导航条超链接设置 */
-.topbar li a{
-
-    font-size: 14px;
-    color: #A7A7A7;
-    display: block;
-}
-.topbar li a:hover{
-
-    color: #333;
-}
-
-/* 导航条分割线设置 */
-.topbar .line{
-
-    font-size: 12px;
-    color: #A7A7A7;
-    margin: 0 7px;
-}
-/* -------------------- */
-
-
-/* ---------- 头部 ---------- */
-/* 头部图案部分 */
-.header{
-
-    width: 100%;
-    height: 225px;
-    background-color: #333;
-}
-
-/* 标题部分 */
-.heading{
-    
-    text-align: center;
-    line-height: 225px;
-    font-family: algerian;
-    color: #fff;
-    font-size: 5em;
-}
-/* -------------------- */
-
 
 /* ---------- 侧边导航栏 ---------- */
 /* 侧边导航栏标题设置 */
@@ -203,23 +135,3 @@ main{
 }
 /* -------------------- */
 
-
-/* ---------- 底部 ---------- */
-/* 底部容器设置 */
-.footer-warpper{
-
-    width: 100%;
-    height: 100px;
-    line-height: 100px;
-    background-color: #000;
-}
-
-/* 底部文字设置 */
-.footer{
-
-    color: #E3E4E5;
-    font-size: 1.2rem;
-    text-align: center;
-}
-
-/* -------------------- */
