@@ -59,7 +59,7 @@
 }
 
 /* 文段设置 */
-.paragraph{
+.paragraphs p{
 
     font-size: 1.2rem;
     margin-bottom: 1rem;
@@ -67,7 +67,7 @@
 }
 
 /* 在每段前加空格 */
-.paragraph::before{
+.paragraphs p::before{
 
     content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
 }

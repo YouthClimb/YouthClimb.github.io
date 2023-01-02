@@ -1,22 +1,24 @@
 <!-- 文章页面的模板 Html 文件 -->
+<!-- 此为 i1_welcome，若需要创建其他文章页面，请复制过去 -->
 
 <!DOCTYPE html>
 <html lang="zn-CH">
 
 <head>
     <template id="head">
-        <!-- 其他内容使用 Jquery 进行加载 -->
+        <!-- 内容用 Jquery 进行加载 -->
     </template>
 
     <!-- 引入私有样式表 -->
-    <link rel="stylesheet" href="../css/articles/style.css">
+    <link rel="stylesheet" href="/css/articles/style.css">
 
     <!-- 链接 JS 文件 -->
-    <script src="../js/jquery-3.6.0.js"></script>
-    <script src="../js/main.js"></script>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/main_art.js"></script>
 
     <!-- 网页导航栏标题 -->
-    <title>Welcome to YouthClimb</title>
+    <title id="document"></title>
 </head>
 
 <body>
@@ -26,14 +28,14 @@
     </nav>
 
     <!-- 网页头部,包含文章标题、作者、日期以及编辑 -->
+    <!-- 使用 Jquery 对文章信息进行加载 -->
     <header class="header w">
-        <h1 class="article-heading">欢迎来到 YouthClimb</h1>
+        <h1 class="article-heading" id="title"></h1>
         <div class="info">
-            <p class="author">作者: YouthClimb</p>
-            <p class="time">日期: 2023.1.1</p>
-            <p class="editor">编辑: JYCao</p>
+            <p class="author" id="author"></p>
+            <p class="time" id="time"></p>
+            <p class="editor" id="editor"></p>
         </div>
-
     </header>
 
     <!-- 文章段落容器 -->

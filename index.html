@@ -2,22 +2,17 @@
 <html lang="zn-CH">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <template id="head">
+        <!-- 其他内容使用 Jquery 进行加载 -->
+    </template>
 
-    <!-- 链接css文件 -->
-    <!-- 引入公共样式表 -->
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/base_style.css">
-    <!-- 引入重置样式表 -->
-    <link rel="stylesheet" href="./css/reset.css">
-    <!-- 引入主页样式表 -->
+    <!-- 引入私有样式表 -->
     <link rel="stylesheet" href="./css/index/style.css">
 
-
-    <!-- 设置网页图标 -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <!-- 链接 JS 文件 -->
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/main_index.js"></script>
 
     <!-- 设置网页标题 -->
     <title>YouthClimb</title>
@@ -25,23 +20,8 @@
 
 <body>
     <!-- 头部导航条容器 -->
-    <nav class="topbar-warpper unselectable">
-        <div class="topbar w clearfix">
-            <ul class="service">
-                <li><a href="/index.html">首页</a></li>
-                <li class="line">|</li>
-                <li><a href="javascript:;">小说</a></li>
-                <li class="line">|</li>
-                <li><a href="javascript:;">文章</a></li>
-                <li class="line">|</li>
-                <li><a href="javascript:;">弔图</a></li>
-                <li class="line">|</li>
-                <li><a href="javascript:;">图片</a></li>
-                <li class="line">|</li>
-                <li><a href="javascript:;">成员</a></li>
-                <li class="line">|</li>
-            </ul>
-        </div>
+    <nav id="topbar-warpper" class="topbar-warpper unselectable">
+        <!-- 使用 Jquery 对头部导航条进行加载 -->
     </nav>
 
     <!-- 网页头部 -->
@@ -70,7 +50,7 @@
         <div class="display-warpper w clearfix">
             <div class="display-part">
                 <div class="dpeach">
-                    <a href="./html/articles/issue1_welcome.html">
+                    <a class="articles" href="i1_welcome.html">
                         <div class="dptitle">【文章】欢迎来到 YouthClimb</div>
                         <div class="dpinfo">
                             YouthClimb 是一个用于整合 Climbing & Playing （下称 C&P）成员的小说、文章、弔图（p图成果）以及照片的网站。本文对于 YouthClimb 的建站原因以及想法做了介绍。
@@ -107,9 +87,7 @@
 
     <!-- 网页底部 -->
     <footer class="footer-warpper clearfix unselectable">
-        <div class="footer">
-            <span>2023 &copy; YouthClimb</span>
-        </div>
+        <!-- 使用 JQuery 对网页底部进行加载 -->
     </footer>
 </body>
 
