@@ -11,23 +11,18 @@ $(function () {
     href = href.substring(href.lastIndexOf("/") + 1);
 
     $.getJSON("/json/artinfo.json", function (jsons) {
-        // 循环比对，满足条件执行操作
-        for (var json of jsons) {
-            if (href == json.link) {
-                {
-                    $("#document").text(json.document);
-                    $("#title").text(json.title);
-                    $("#author").text("作者：" + json.author);
-                    $("#time").text("时间：" + json.time);
-                    $("#editor").text("编辑：" + json.editor);
 
-                    $("#paragraphs").load("/posts/articles/" + href);
+        // 获取 link 和文件名相同的 json 单元，将其添加到网页中
+        const info = jsons.filter(json => json.link == href);
 
-                    break;
-                }
-            }
+        $("#document").text(info[0].document);
+        $("#title").text(info[0].title);
+        $("#author").text("作者：" + info[0].author);
+        $("#time").text("时间：" + info[0].time);
+        $("#editor").text("编辑：" + info[0].editor);
 
-        }
+        $("#paragraphs").load("/posts/articles/" + href);
+        
     });
 }
 );

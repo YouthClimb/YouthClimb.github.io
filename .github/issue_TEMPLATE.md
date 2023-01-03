@@ -10,7 +10,7 @@ assignees: YouthClimb
 **bug 描述**
 一句话简短清晰地描述出 bug
 
-**To Reproduce**
+**详述**
 重现该出现改问题的步骤
 1. 在某个页面
 2. 点击某个链接/按钮
