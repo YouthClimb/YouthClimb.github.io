@@ -1,0 +1,159 @@
+/* 对于主页 index.html 的样式更改 less 文件 */
+
+
+/* ---------- 头部 ---------- */
+.header {
+    width: 100%;
+    height: 225px;
+    background-color: @black-char;
+
+    /* 防止被顶部导航条遮住 */
+    margin-top: @topbar-h;
+
+    .heading {
+        text-align: center;
+        line-height: 225px;
+        font-family: algerian;
+        color: @white;
+        font-size: 5em;
+    }
+}
+
+/* -------------------- */
+
+
+/* ---------- 侧边导航栏 ---------- */
+.sidebar-warpper {
+    // 侧边导航栏容器极其子元素设置 
+
+    // sidebar margin-top: 2rem;
+    @sidebar-mt: 2rem;
+
+    width: 20%;
+
+    height: calc(100% - @sidebar-mt);
+    /* 这里的2rem为.sidebar 的 margin-top，减去才能正常撑满100% */
+
+    background-color: #A7A7A7;
+    float: left;
+    padding-bottom: 2rem;
+
+    // 侧边导航栏设置
+    .sidebar {
+        margin-top: 1rem;
+        padding-top: 1rem;
+
+        // 标题设置
+        h1 {
+            padding-left: 2rem;
+            margin-bottom: @sidebar-mt;
+            font-size: 2rem;
+            text-shadow: 1px 1px 1px @black-shadow;
+
+            &::after {
+                // 光标指向时后会出现 #
+                content: '#';
+                display: none;
+            }
+        }
+
+        li {
+
+            // 超链接设置
+            a {
+                display: block;
+                padding: 0.5rem 0 0.5rem 3rem;
+                height: 2rem;
+                line-height: 2rem;
+            }
+
+            // 导航栏光标选中设置
+            &:hover {
+                background-color: @black-char;
+                transition: all 1s;
+
+                // 超链接变化
+                a {
+                    color: @grey-char;
+                    transition: all 1s;
+                }
+            }
+        }
+    }
+
+    // 侧边导航栏容器
+    /* 使得 main 高度被右边内容展示部分撑起时能够撑满 100% */
+    /* 配合下面 main 选择器使用 */
+    position: absolute;
+    top: 0;
+}
+
+/* 使得 main 高度被右边内容展示部分撑起时能够撑满 100% */
+/* 配合上面 position 和 top 设置使用 */
+main {
+
+    position: relative;
+}
+
+/* -------------------- */
+
+
+/* ---------- 内容展示部分 ---------- */
+.display-warpper {
+    // 内容展示容器设置
+    width: 80%;
+    min-height: @min-height;
+    background-color: @grey;
+    float: right;
+
+    .display-part {
+        /* 展示部分与侧边栏、顶部和底部的边距 */
+        margin: 5rem 10rem 0 10rem;
+
+        // 每项内容设置
+        .dpeach {
+            /* 每项内容的底边边距设置 */
+            margin-bottom: 5rem;
+
+            a {
+                /* 使超链接撑满父元素 */
+                display: block;
+
+                /* 对于每项内容的超链接选中后下方内容的响应 */
+                &:hover {
+                    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+                    transition: all 0.5s;
+
+                    /* 对于每项内容的超链接选中后标题的响应 */
+                    .dptitle {
+
+                        font-size: 2rem;
+                        transition: all 0.5s;
+                    }
+                }
+
+                // 每项内容标题设置
+                .dptitle {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+                    display: inline-block;
+                    margin-bottom: 1rem;
+                }
+
+                .dpinfo {
+                    /* 每项内容下方详情的字体和颜色 */
+                    font-size: 1.2rem;
+                    color: @black-shadow;
+                    line-height: 1.5rem;
+
+                    &::before {
+                        /* 每项内容前添加空格 */
+                        content: "\00a0\00a0\00a0\00a0";
+                    }
+                }
+            }
+        }
+    }
+}
+/* -------------------- */

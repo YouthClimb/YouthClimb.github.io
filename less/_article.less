@@ -1,0 +1,84 @@
+/* 用于文章界面的 less 文件 */
+
+
+/* ---------- 头部设置 ---------- */
+.header {
+
+    /* 防止被顶部导航条遮住 */
+    margin-top: @topbar-h;
+
+    min-height: 200px;
+    padding-top: 5rem;
+
+    /* 背景颜色设置 */
+    background-color: @grey-bg;
+
+    /* 文章标题设置 */
+    .article-heading {
+
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1.5em;
+        text-shadow: 2px 2px 2px rgba(114, 114, 114, 0.6);
+    }
+
+    .info {
+
+        width: fit-content;
+        height: 16px;
+        margin: 0 auto;
+        color: rgb(167, 157, 157);
+
+        /* 文章信息设置 */
+        p {
+
+            float: left;
+            margin-right: 1rem;
+        }
+    }
+}
+
+/* -------------------- */
+
+
+/* ---------- 网页主体部分设置 ---------- */
+/* 文章段落设置 */
+.paragraphs {
+
+    padding-left: 10rem;
+    padding-right: 10rem;
+    padding-bottom: 5rem;
+
+    // 背景颜色
+    background-color: @grey-bg;
+
+    /* 文章段落二级标题设置 */
+    h2 {
+
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 1.5rem 0;
+        text-shadow: 1px 1px 2px rgba(114, 114, 114, 0.6);
+
+        &:hover::after {
+            // 标题光标选中后出现 #
+            content: ' #';
+        }
+    }
+
+    /* 文段设置 */
+    p{
+
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        line-height: 2rem;
+
+        /* 在每段前加空格 */
+        &::before {
+            content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+        }
+    }
+}
+
+/* -------------------- */
