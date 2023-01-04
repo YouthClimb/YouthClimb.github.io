@@ -2,15 +2,15 @@
 
 
 $(function () {
-    // 点击右侧展示部分超链接后的反馈
-    $(".display-part a").click(function () {
-
-        let url = $(this).attr("href");
-
-        // 超链接为文章的情况
-        if ($(this).hasClass("articles")) {
-            $(this).attr('href', '../html/articles/' + url);
-        }
+    // 点击左侧侧边栏的反馈
+    $('#sidebar a').click(function (event) {
+        event.preventDefault();
+        // 加载页面
+        let url = $(this).attr('href');
+        $('#display-part').load("/templates/display/" + url);
     });
+
+    // 加载默认页面
+    $('#sidebar li a:nth-child(1)').click();
 }
 );

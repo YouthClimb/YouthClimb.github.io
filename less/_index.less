@@ -110,8 +110,8 @@ main {
         /* 展示部分与侧边栏、顶部和底部的边距 */
         margin: 5rem 10rem 0 10rem;
 
-        // 每项内容设置
-        .dpeach {
+        /* ---------- recent.html ---------- */
+        .recent {
             /* 每项内容的底边边距设置 */
             margin-bottom: 5rem;
 
@@ -154,6 +154,40 @@ main {
                 }
             }
         }
+        /* -------------------- */
+
+        /* ---------- novels.html ---------- */
+        // 标题等信息设置
+        .novel {
+            .book {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+        }
+        
+        a{
+            // 超链接光标选中反馈
+            &:hover{
+
+                .book {
+                    font-size: 1.5rem;
+                    transition: all 0.5s;
+                }
+
+                .intro {
+                    text-shadow: 1px 1px 1px @grey-char; 
+                    transition: all 0.5s;
+                }
+            }
+
+            // 介绍添加空格
+            .intro::before {
+                content: '\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
+            }
+        } 
+        
+        
+        /* -------------------- */
     }
 }
 /* -------------------- */
