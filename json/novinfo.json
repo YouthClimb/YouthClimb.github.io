@@ -1,0 +1,11 @@
+[
+    {
+        "book_id": "lc",
+        "book_title": "御光师",
+        "book_author": "JYCao",
+        "path": {
+            "json": "/json/novels/lc.json",
+            "post": "/posts/novels/lc"
+        } 
+    }
+]
