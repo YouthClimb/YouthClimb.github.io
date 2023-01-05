@@ -3,7 +3,7 @@
 
 
 $(function () {
-
+    /* ------------------- json 解析 -------------------- */
     var href = document.location.href;
 
     // 字符串处理，获取小说名 id 以及卷数
@@ -26,7 +26,7 @@ $(function () {
         // 考虑到以后可能每部小说的信息不同，以下分书本解析小说 json 文件
         if (book_id == "lc") {
             $.getJSON(json_url, function (jsons) {
-                // 解析第二层 json 文件，获取每一章详情并写入网页
+                /* 解析第二层 json 文件，获取每一章详情并写入网页 */
                 var chapter_info;
 
                 jsons.forEach(json => {
@@ -42,26 +42,56 @@ $(function () {
                 $("#chapter").text(chapter_info.chapter);
                 $("#chapter-title").text(chapter_info.chapter_title);
                 $("#paragraphs").load(post_url);
+                /* -------------------------------------- */
 
 
                 // 获取当前章节前一章和后一章的地址
                 var last_info, next_info;
 
                 jsons.forEach(json => {
-                    
+
                     if (json.id == parseInt(chapter_info.id) + 1) {
                         next_info = json;
                     }
-                        
+
                     if (json.id == parseInt(chapter_info.id) - 1)
-                        last_info = json;   
+                        last_info = json;
                 });
 
                 if (last_info)
                     $(".last-chapter a").attr("href", "/html/novels/" + book_id + "/" + last_info.volume_id + "/" + last_info.link);
-                if (next_info) 
+                if (next_info)
                     $(".next-chapter a").attr("href", "/html/novels/" + book_id + "/" + next_info.volume_id + "/" + next_info.link);
+                /* -------------------------------------- */
             });
         }
     });
+    /* ------------------------------------------------ */
+
+
+    /* ------------------- 回到顶部/底部按钮 -------------------- */
+    //回到顶部按钮的显示/隐藏代码			
+    //隐藏返回顶部按钮
+    $("#back-top").hide();
+
+    //显示返回顶部按钮
+    var height = $(document).height();//页面高度
+
+    //点击回到顶部
+    $('.totop').click(function () {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 'fast');
+        return false;
+    });
+
+    //回到底部
+    $('.tobottom').click(function () {
+        $('html,body').stop();
+        $('html,body').animate({
+            scrollTop: height
+        }, 'fast');
+        return false;
+    });
+    /* ------------------------------------------------ */
 });
