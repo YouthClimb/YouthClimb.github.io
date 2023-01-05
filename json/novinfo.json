@@ -5,7 +5,8 @@
         "book_author": "JYCao",
         "path": {
             "json": "/json/novels/lc.json",
-            "post": "/posts/novels/lc"
+            "post": "/posts/novels/lc",
+            "cover": "/image/nov_cover/none.png"
         } 
     }
 ]

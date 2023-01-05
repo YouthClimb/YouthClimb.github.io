@@ -1,0 +1,69 @@
+/* 用于文章列表界面的 less 文件 */
+
+
+.header {
+    /* 防止被顶部导航条遮住 */
+    margin-top: @topbar-h;
+
+    /* 背景颜色设置 */
+    background-color: @grey-bg;
+
+    padding-top: 5em;
+    padding-bottom: 3em;
+
+    // 设置下边框线
+    border-bottom: 1px solid @grey-char;
+
+    // 标题设置
+    .heading {
+        display: inline-block;
+        margin-left: 5em;
+
+        font-size: 1.8rem;
+        font-weight: bold;
+
+        // 标题光标选中后出现 #
+        &:hover::after {
+            content: '#';
+            margin-left: 0.5rem;
+        }
+    }
+}
+
+#novels-list {
+    // 设置最小高度和背景颜色
+    min-height: @min-height;
+    background-color: @grey-bg;
+
+    padding-left: 10rem;
+    padding-top: 5rem;
+
+    li {
+        // 使同一行能容纳多个块
+        display: inline-block;
+
+        margin-right: 5rem;
+        margin-bottom: 5rem;
+
+        // 图片设置
+        img {
+            // 尺寸
+            width: 10rem;
+            // 直角钝化
+            border-radius: 10px;
+        }
+        
+        // 书籍名称
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        // 书籍作者
+        .author {
+            text-align: center;
+            color: @grey-char;
+        }
+    }
+}
