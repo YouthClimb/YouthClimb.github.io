@@ -1,0 +1,67 @@
+/* 用于文章列表界面的 less 文件 */
+
+
+.header {
+    /* 防止被顶部导航条遮住 */
+    margin-top: @topbar-h;
+
+    /* 背景颜色设置 */
+    background-color: @grey-bg;
+
+    padding-top: 5em;
+    padding-bottom: 3em;
+
+    // 设置下边框线
+    border-bottom: 1px solid @grey-char;
+
+    // 标题设置
+    .heading {
+        display: inline-block;
+        margin-left: 5em;
+
+        font-size: 1.8rem;
+        font-weight: bold;
+
+        // 标题光标选中后出现 #
+        &:hover::after {
+            content: '#';
+            margin-left: 0.5rem;
+        }
+    }
+}
+
+#articles-list {
+    /* 背景颜色设置 */
+    background-color: @grey-bg;
+    min-height: @min-height;
+    padding-top: 2em;
+
+    li {
+        padding-left: 10rem;
+
+        a {
+            // 超链接光标选中反馈
+            &:hover {
+                .art-title {
+                    font-size: 1.5rem;
+                    transition: all 0.2s;
+                }
+            }
+
+            // 列表中每一篇文章信息设置
+            div {
+                display: inline-block;
+                line-height: 1rem;
+                min-width: 20%;
+                margin-bottom: 1rem;
+            }
+    
+            // 文章标题设置
+            .art-title {
+                font-size: 1.2rem;
+                font-weight: bold;
+                min-width: 30%;
+            }
+        }
+    }
+}
