@@ -154,6 +154,7 @@ main {
                 }
             }
         }
+
         /* -------------------- */
 
         /* ---------- novels.html ---------- */
@@ -164,10 +165,11 @@ main {
                 font-weight: bold;
             }
         }
-        
-        a{
+
+        a {
+
             // 超链接光标选中反馈
-            &:hover{
+            &:hover {
 
                 .book {
                     font-size: 1.5rem;
@@ -175,7 +177,7 @@ main {
                 }
 
                 .intro {
-                    text-shadow: 1px 1px 1px @grey-char; 
+                    text-shadow: 1px 1px 1px @grey-char;
                     transition: all 0.5s;
                 }
             }
@@ -184,10 +186,42 @@ main {
             .intro::before {
                 content: '\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
             }
-        } 
-        
-        
+        }
+
+
+        /* -------------------- */
+
+        /* ---------- article.html ---------- */
+        .article {
+
+            // 文章标题设置
+            div {
+                display: inline-block;
+                line-height: 1rem;
+                min-width: 25%;
+                margin-bottom: 1rem;
+            }
+
+            // 列表中每一篇文章信息设置
+            .art-title {
+                font-size: 1.2rem;
+                font-weight: bold;
+                min-width: 35%;
+            }
+
+            a {
+                // 超链接光标选中反馈
+                &:hover {
+                    .art-title {
+                        font-size: 1.5rem;
+                        transition: all 0.2s;
+                    }
+                }
+            }
+        }
+
         /* -------------------- */
     }
 }
+
 /* -------------------- */
