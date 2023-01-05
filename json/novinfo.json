@@ -6,7 +6,8 @@
         "path": {
             "json": "/json/novels/lc.json",
             "post": "/posts/novels/lc",
-            "cover": "/image/nov_cover/none.png"
+            "cover": "/image/nov_cover/none.png",
+            "html": "/html/novels/lc/index.html"
         } 
     }
 ]

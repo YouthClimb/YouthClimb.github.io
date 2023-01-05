@@ -1,0 +1,117 @@
+// 小说目录页面 less 文件
+
+
+.header {
+    // 背景颜色
+    background-color: @grey-bg;
+    // 防止顶部被导航条遮住
+    margin-top: @topbar-h;
+
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    border-bottom: 2px solid @grey-char;
+
+    // 使图片右侧信息与上基线对齐，便于布局
+    display: flex;
+
+    // 图片设置
+    img {
+        margin-left: 10rem;
+        width: 15rem;
+    }
+
+    // 对书籍名字和作者设置
+    .info-warpper {
+        // 使其与图片一行
+        display: inline-block;
+
+        margin-left: 15rem;
+        margin-top: 2rem;
+
+        #title {
+            font-size: 3rem;
+            font-weight: bold;
+
+            margin-bottom: 0.5em;
+        }
+
+        #author {
+            font-size: 1.5rem;
+            text-align: center;
+
+        }
+    }
+}
+
+// 目录展示部分设置
+main {
+    // 最小高度与背景颜色
+    min-height: @min-height;
+    background-color: @grey-bg;
+
+    padding-top: 3rem;
+
+    // 对“目录”的设置
+    .catalog {
+        padding-left: 6rem;
+
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    // 对分卷等的设置
+    // 这里本来想搞成瀑布流，没搞出来，以后有机会可以改
+    .volumes {
+        padding-top: 2rem;
+        padding-left: 8rem;
+        padding-right: 8rem;
+
+        // flex布局
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        // 对每一卷板块的设置
+        .each {
+            // 边框
+            border: 2px solid @grey;
+            border-radius: 20px;
+
+            min-width: 30%;
+            padding: 3rem;
+            margin-bottom: 5rem;
+
+            // 卷数和卷名设置
+            .volume,
+            .volume-name {
+                display: inline-block;
+
+                font-size: 1.2rem;
+                font-weight: bold;
+
+                margin-bottom: 1em;
+                margin-right: 0.5rem;
+            }
+
+            // 超链接（章节）设置
+            a {
+                .chapter,
+                .chapter-name {
+                    display: inline-block;
+                    font-size: 1.2rem;
+                    margin: 0.2rem 0;
+                    min-width: 30%;
+                }
+
+                // 章节选中反馈：下划线
+                &:hover {
+
+                    .chapter,
+                    .chapter-name {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
