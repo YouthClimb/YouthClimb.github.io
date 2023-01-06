@@ -122,3 +122,61 @@ vscode 的安装教程:
 9. vscode-icons: 改变左侧文件图标样式
 10. Ayu: 改变 vscode 主题
 11. Tabnine AI Autocomplete for Javascript, Python, Typescript, PHP, Go, Java, Ruby & more: 有趣的 AI 补全代码，图一乐
+
+### II.vscode 配置终端
+在 vscode 的底部可以使用命令行，这样就不需要从外部打开一个项目目录的黑窗口了。按快捷键 `CTRL + SHIFT + ~` 可以打开下方的终端。或是点击 vscode 顶部导航栏的 _终端_ ，再点击新建终端即可。
+
+接着配置终端，从顶部导航栏点击 `文件`，选择 `首选项`，再选择 `设置` 进入设置界面，然后点击右上方的 `打开设置(json)`。
+
+![终端设置1](/image/contributing/%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE1.png)
+
+这时会弹出一个名为 `settings.json` 的文件。找到 `"terminal.integrated.profiles.windows"` 字段，它可能是这样的（这是我的配置，仅供参考，建议不要复制粘贴）。
+
+```
+"terminal.integrated.profiles.windows": {
+    "PowerShell": {
+        "source": "PowerShell",
+        "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+        "path": [
+            "${env:windir}\\Sysnative\\cmd.exe",
+            "${env:windir}\\System32\\cmd.exe"
+        ],
+        "args": [],
+        "icon": "terminal-cmd"
+    },
+    "Git-Bash": {
+        // "path": "D:\\Git\\usr\\bin\\bash.exe",
+        "path": "C:\\dev\\msys64\\msys2_shell.cmd",
+        "args": [
+            "-defterm",
+            "-mingw64",
+            "-no-start",
+            "-here",
+            "-lic",
+            "cd $PWD; exec zsh"
+        ]
+        //"source": "GitBash"
+    },
+},
+```
+
+在`"terminal.integrated.profiles.windows"`的大括号中，添加
+```
+"Git-Bash": {
+        "path": "D:\\Git\\usr\\bin\\bash.exe",
+        "source": "GitBash"
+    },
+```
+
+如果有 `"Git-Bash"` ，就直接在其中修改。`"path"`是你安装的 Git 中 Git Bash 路径。注意，需要的 `bash.exe` 是 `bin` 下的。
+
+然后，修改`"terminal.integrated.defaultProfile.windows"`字段（有则修改无则添加）为
+```
+"terminal.integrated.defaultProfile.windows": "Git-Bash",
+```
+
+如果觉得这里描述不够清楚，可以百度搜索 "vscode 配置 git bash"或是"vscode 配置终端"等字样。下面是参考文章。
+
+参考文章: [vscode配置gitbash](https://www.imooc.com/article/321909)
