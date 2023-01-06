@@ -41,7 +41,11 @@ $(function () {
                 $("#volume-name").text(chapter_info.volume_name);
                 $("#chapter").text(chapter_info.chapter);
                 $("#chapter-title").text(chapter_info.chapter_title);
-                $("#paragraphs").load(post_url);
+                
+                $("#paragraphs").load(post_url, function(){
+                    // 必须在此处获取载入后界面的高度
+                    height = $(document).height(); //页面高度
+                });
                 /* -------------------------------------- */
 
 
@@ -70,13 +74,7 @@ $(function () {
 
 
     /* ------------------- 回到顶部/底部按钮 -------------------- */
-    //回到顶部按钮的显示/隐藏代码			
-    //隐藏返回顶部按钮
-    $("#back-top").hide();
-
-    //显示返回顶部按钮
-    var height = $(document).height();//页面高度
-
+    var height;
     //点击回到顶部
     $('.totop').click(function () {
         $('body,html').animate({
