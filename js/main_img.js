@@ -71,6 +71,8 @@ $(function () {
                 top: minValue
             });
             colHeightArry[minIndex] += $(this).outerHeight(true);
+
+            $("main").css("height", colHeightArry[minIndex] + $(this).outerHeight(true) + "px");
         });
     }
 
@@ -97,6 +99,7 @@ $(function () {
                 top: minValue
             })
             colHeightArry[minIndex] += $(this).outerHeight(true);
+            $("main").css("height", colHeightArry[minIndex] + $(this).outerHeight(true) + "px");
         });
     }
     /* -------------------------------------------- */
