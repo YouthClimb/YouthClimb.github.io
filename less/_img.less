@@ -1,0 +1,107 @@
+// 用于图片加载页面的 less文件
+
+// 页面头部/标题设置
+.header {
+    // 防止被顶部导航条遮挡
+    margin-top: @topbar-h;
+    // 背景颜色
+    background-color: @black-char;
+
+    padding: 4rem 0;
+
+    // 标题设置
+    .heading {
+        font-size: 3rem;
+        font-weight: bold;
+        color: @grey-char;
+        margin-left: 2em;
+    }
+}
+
+// 页面主题部分设置
+main {
+    // 背景颜色
+    background-color: @grey-bg;
+
+    // 图片容器设置
+    .img-wrapper {
+        padding-top: 3rem;
+        padding-left: 3rem;
+
+        // 图片盒子设置
+        // 因为 js 瀑布流的原因，此处盒子必须为 relative，图片必须为 absolute
+        .img-box {
+            position: relative;
+            // 背景颜色
+            background-color: @grey-bg;
+
+            a {
+                &:hover {
+                    img {
+                        box-shadow: 5px 5px 5px @black-shadow;
+                        transition: all 0.5s;
+                    }
+                }
+
+                // 图片设置
+                img {
+                    width: 12rem;
+                    position: absolute;
+                    margin: 1rem;
+                    border-radius: 5px;
+
+                    box-shadow: 2px 2px 5px @black-shadow;
+                }
+            }
+        }
+    }
+}
+
+// 图片展示窗口设置
+#img-displayer {
+    // 默认为关闭
+    display: none;
+
+    // 固定于页面中部
+    position: fixed;
+    top: 50px;
+    left: 220px;
+
+    // 背景颜色
+    background: @white;
+    box-shadow: 2px 2px 5px @black-shadow;
+
+    // 大小以及角钝化
+    height: 640px;
+    width: 1080px;
+    border-radius: 5px;
+
+    // 水平居中
+    text-align: center;
+    line-height: 640px;
+
+    img {
+        // 限制图片大小
+        height: auto;
+        width: auto;
+        max-width: 95%;
+        max-height: 95%;
+
+        // 垂直居中
+        vertical-align: middle;
+    }
+
+    // 关闭按钮设置
+    #close-d {
+        position: absolute;
+        top: 1rem;
+        right: -3rem;
+
+        height: 2rem;
+        width: 2rem;
+
+        // 图标字体大小和颜色
+        font-size: 2rem;
+        color: @grey-char;
+    }
+}
