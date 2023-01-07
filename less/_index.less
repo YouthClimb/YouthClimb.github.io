@@ -210,6 +210,7 @@ main {
             }
 
             a {
+
                 // 超链接光标选中反馈
                 &:hover {
                     .art-title {
@@ -217,6 +218,60 @@ main {
                         transition: all 0.2s;
                     }
                 }
+            }
+        }
+
+        /* -------------------- */
+
+
+        /* ---------- image.html ---------- */
+        .image {
+            // flex布局：均分父元素空间
+            display: flex;
+            justify-content: space-between;
+
+            // 超链接设置
+            a {
+                height: 10rem;
+                width: 10rem;
+                padding: 2rem 3rem 3rem 3rem;
+                margin-right: 4rem;
+
+                // 边框与阴影
+                border: 2px solid @black-shadow;
+                border-radius: 10%;
+                box-shadow: 2px 2px 2px @black-shadow;
+
+                // 标题设置
+                .title {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    text-align: center;
+
+                    margin-bottom: 0.8rem;
+                }
+
+                // 介绍设置
+                .introduce {
+                    font-size: 1.2rem;
+                }
+            }
+
+            .photo {
+                &:hover {
+                    box-shadow: 5px 5px 5px @black;
+                    transition: all 0.3s;
+                }
+            }
+
+            .diaotu {
+                &:hover {
+                    box-shadow: 0px 0px 0px @black;
+                    color: @white;
+                    background-color: @black;
+                    transition: all 1s;
+                }
+
             }
         }
 
