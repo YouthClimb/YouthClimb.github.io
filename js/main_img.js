@@ -1,11 +1,23 @@
 $(function () {
 
-    $.getJSON("/json/photoinfo.json", function (jsons) {
+    var href = document.location.href;
+    href = href.substring(0, href.lastIndexOf("/"));
+    href = href.substring(href.lastIndexOf("/") + 1);
+
+    var json_url;
+
+    if (href == "photos") {
+        json_url = "/json/photoinfo.json";
+    } else if (href == "diaotu") {
+        json_url = "/json/diaotuinfo.json";
+    }
+
+    $.getJSON(json_url, function (jsons) {
         // 获取 link 和文件名相同的 json 单元，将其添加到网页中
         jsons.forEach((json) => {
             $(".img-box").append("\
                 <a href=\"javascript:;\">\
-                    <img src=\"/image/photos/"+ json.link + "\" alt=\"\">\
+                    <img src=\"/image/"+ href + "/"+ json.link + "\" alt=\"\">\
                 </a>\
             ");
         });
@@ -24,6 +36,7 @@ $(function () {
 
         imgDisplayer();
     });
+    
 
     /* ------------------ 瀑布流加载相片 ------------------- */
 
