@@ -9,5 +9,16 @@
             "cover": "/image/nov_cover/none.png",
             "html": "/html/novels/lc/index.html"
         } 
+    },
+    {
+        "book_id": "toolntank",
+        "book_title": "图尔曼和坦金曼",
+        "book_author": "JYCao",
+        "path": {
+            "json": "/json/novels/toolntank.json",
+            "post": "/posts/novels/toolntank",
+            "cover": "/image/nov_cover/none.png",
+            "html": "/html/novels/toolntank/index.html"
+        } 
     }
 ]

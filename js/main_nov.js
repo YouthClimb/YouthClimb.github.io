@@ -23,52 +23,51 @@ $(function () {
         const json_url = book_info[0].path.json;
 
 
-        // 考虑到以后可能每部小说的信息不同，以下分书本解析小说 json 文件
-        if (book_id == "lc") {
-            $.getJSON(json_url, function (jsons) {
-                /* 解析第二层 json 文件，获取每一章详情并写入网页 */
-                var chapter_info;
 
-                jsons.forEach(json => {
-                    if (json.volume_id == volume_id && json.link == chapter_link)
-                        chapter_info = json;
-                });
+        $.getJSON(json_url, function (jsons) {
+            /* 解析第二层 json 文件，获取每一章详情并写入网页 */
+            var chapter_info;
 
-                $("#document").text(chapter_info.document);
-                $("#book-title").text(book_info.book_title);
-                $("#author").text(book_info.book_author);
-                $("#volume").text(chapter_info.volume);
-                $("#volume-name").text(chapter_info.volume_name);
-                $("#chapter").text(chapter_info.chapter);
-                $("#chapter-title").text(chapter_info.chapter_title);
-                
-                $("#paragraphs").load(post_url, function(){
-                    // 必须在此处获取载入后界面的高度
-                    height = $(document).height(); //页面高度
-                });
-                /* -------------------------------------- */
-
-
-                // 获取当前章节前一章和后一章的地址
-                var last_info, next_info;
-
-                jsons.forEach(json => {
-
-                    if (json.id == parseInt(chapter_info.id) + 1) {
-                        next_info = json;
-                    }
-
-                    if (json.id == parseInt(chapter_info.id) - 1)
-                        last_info = json;
-                });
-
-                if (last_info)
-                    $(".last-chapter a").attr("href", "/html/novels/" + book_id + "/" + last_info.volume_id + "/" + last_info.link);
-                if (next_info)
-                    $(".next-chapter a").attr("href", "/html/novels/" + book_id + "/" + next_info.volume_id + "/" + next_info.link);
-                /* -------------------------------------- */
+            jsons.forEach(json => {
+                if (json.volume_id == volume_id && json.link == chapter_link)
+                    chapter_info = json;
             });
-        }
+
+            $("#document").text(chapter_info.document);
+            $("#book-title").text(book_info.book_title);
+            $("#author").text(book_info.book_author);
+            $("#volume").text(chapter_info.volume);
+            $("#volume-name").text(chapter_info.volume_name);
+            $("#chapter").text(chapter_info.chapter);
+            $("#chapter-title").text(chapter_info.chapter_title);
+
+            $("#paragraphs").load(post_url, function () {
+                // 必须在此处获取载入后界面的高度
+                height = $(document).height(); //页面高度
+            });
+            /* -------------------------------------- */
+
+
+            // 获取当前章节前一章和后一章的地址
+            var last_info, next_info;
+
+            jsons.forEach(json => {
+
+                if (json.id == parseInt(chapter_info.id) + 1) {
+                    next_info = json;
+                }
+
+                if (json.id == parseInt(chapter_info.id) - 1)
+                    last_info = json;
+            });
+
+            if (last_info)
+                $(".last-chapter a").attr("href", "/html/novels/" + book_id + "/" + last_info.volume_id + "/" + last_info.link);
+            if (next_info)
+                $(".next-chapter a").attr("href", "/html/novels/" + book_id + "/" + next_info.volume_id + "/" + next_info.link);
+            /* -------------------------------------- */
+        });
+
     });
     /* ------------------------------------------------ */
 

@@ -18,5 +18,55 @@
         "volume_id": "1",
         "chapter": "第一章",
         "chapter_title": "摘不下的戒指"
+    },
+    {
+        "id": "3",
+        "link": "2.html",
+        "document": "御光师 第一卷 第二章",
+        "volume": "第一卷",
+        "volume_name": "自彼界而来的魔法使",
+        "volume_id": "1",
+        "chapter": "第二章",
+        "chapter_title": "正义的二打一"
+    },
+    {
+        "id": "4",
+        "link": "3.html",
+        "document": "御光师 第一卷 第三章",
+        "volume": "第一卷",
+        "volume_name": "自彼界而来的魔法使",
+        "volume_id": "1",
+        "chapter": "第三章",
+        "chapter_title": "Weekend Date"
+    },
+    {
+        "id": "5",
+        "link": "4.html",
+        "document": "御光师 第一卷 终章",
+        "volume": "第一卷",
+        "volume_name": "自彼界而来的魔法使",
+        "volume_id": "1",
+        "chapter": "终章",
+        "chapter_title": "救援行动"
+    },
+    {
+        "id": "6",
+        "link": "postscript.html",
+        "document": "御光师 第一卷 后记",
+        "volume": "第一卷",
+        "volume_name": "自彼界而来的魔法使",
+        "volume_id": "1",
+        "chapter": "后记",
+        "chapter_title": ""
+    },
+    {
+        "id": "7",
+        "link": "glossary.html",
+        "document": "御光师 第一卷 名词及其设定",
+        "volume": "第一卷",
+        "volume_name": "自彼界而来的魔法使",
+        "volume_id": "1",
+        "chapter": "名词及其设定",
+        "chapter_title": ""
     }
 ]
