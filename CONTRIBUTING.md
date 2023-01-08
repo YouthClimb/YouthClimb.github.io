@@ -3,8 +3,7 @@
 1. 项目开发所需要的知识
 2. 项目目录结构
 3. 如何维护项目
-4. 如何继续开发项目
-5. ...
+4. ...
 
 _JYCao 编辑于 2023.1.8_
 ## 一、项目开发所需要的知识
@@ -366,3 +365,59 @@ json 文件用了两个种，`/json/novinfo.json`用于存放每部小说的相�
 ]
 ```
 `id`标识了章节在小说中处于第几章，实际上，这个字段主要用于`/js/main_nov.js`的“上一章”“下一章”跳跃功能实现；`link`是文件名，用于作为引入文段的线索；其他的不多解释。
+
+其中，`/js/main_nov.js`, `/js/main_nov_index.js`, `/js/main_nov_catalog.js`分别是 _小说文段页面_ ，_小说列表页面_ 和 _小说目录页面_ 的私有 js 文件。
+
+图片封面路径为`/image/nov_cover`。
+
+想要添加小说：
+1. 在`/html/novels`文件夹下创建一个新文件夹，其名字作为 `book_id`，然后再在`/posts/novels`创建同名文件夹；
+2. 将其他小说文件夹下的 `index.html` 复制粘贴到小说文件夹下，创建一个文件夹命名为 1，表示第一卷（目前暂时没有分有卷数和无卷数的小说，如果是后者也照做）。然后在其中复制粘贴其他小说的 html 文件，重命名。
+3. 在`/posts/novels`也创建名为 1 的文件夹，然后将含文段的 html 文件放入，命名对应第二步，需要相同。文章的所有文段都要打上 p 标签且无空格空行最好，如果内容多，建议用 word 文档批量操作。
+4. 编辑`/json/novinfo.json`，添加小说信息，并在`/json/novels`创建相应名称的 json 文件，在其中添加章节信息。
+5. 如果有更多卷，重复 2 3 4 步步骤，创建相应卷数的文件夹，复制文件，添加 json 信息。
+
+如果想往已有小说添加章节，请更改小说特有的 json 文件，并对`/html`中的模板进行复制粘贴，有卷数则创建新文件夹，将文段处理后放入`/posts/novels`的对应文件夹中。
+
+## 图片：照片和弔图
+照片和弔图是两个页面，但他们共用同样的 css 与 js 文件：`/css/image.min.css`, `/js/main_img.js`。
+
+图片的显示用到了一个名为瀑布流的技术。下面是介绍：
+[什么是瀑布流](https://www.cnblogs.com/lp475177107/p/12558667.html)
+
+对于图片的载入，也用到了 json 文件，json 记录了每张图片的名字，并赋予了一个 id。照片和弔图分别是两个 json 文件：`/json/photoinfo.json`和`/json/diaotuinfo.json`。
+
+如果图片过多，可以写个 Python 脚本进行处理，生成 json 文件，下面给个示例。
+```
+import os
+import json
+
+images = []
+path_name = 'C:/Users/C.J.Y/Desktop/YouthClimbabout/YouthClimb/image/photos' 
+for filename in os.listdir(path_name):
+    if os.path.splitext(filename)[1] == '.jpg' or os.path.splitext(filename)[1] == '.png' or os.path.splitext(filename)[1] == '.jpeg':  
+        images.append(filename)
+
+with open(file="C:/Users/C.J.Y/Desktop/YouthClimbabout/YouthClimb/info.json", mode="w", encoding="utf-8") as fb:
+    fb.write("[")
+    index = 1
+    for img in images:
+        fb.write(json.dumps({
+                    "link": img,
+                    "id": index
+                }))
+        fb.write(",")
+        index += 1
+    fb.write("\b]")
+
+```
+
+想要在页面上增加图片：
+1. 将图片拖入对应目录中，照片为`/image/photos`，弔图为`/image/diaotu`
+2. 运行脚本生成新的 json 文件，替换掉原来的并保存 
+
+>（不用认真看）
+>关于图片载入，本来我想用 js 直接读取目录下文件，但静态页面对于这个操作好像没有什么办法。无奈之下只好用 json 了=.=
+
+## 结
+若文中有什么写的不清楚之处，敬请指出。有问题可以与我进行联系。
