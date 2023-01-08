@@ -82,4 +82,195 @@ image
 
 `posts`文件夹用于存放小说和文章中的文段内容。
 
+## 如何对项目进行维护
+目前为止项目主要可以划分成几块: html 构建的页面层次，css 和 less 负责的页面渲染，js 负责的网页行为，以及依靠 js 对 json 进行解析后将各个模块拼凑在一起的模块化。
+
+_提示：维护时利用 Live Server 插件，在想要预览的界面 html 编辑界面右键，点击`Open with Live Server`，所进行的更改都会实时（保存后）反馈在页面中。_
+### css 与 less
+在对其他部分进行说明前，我先对 css/less 这一渲染部分做出讲解，因为它与其他部分的联系相对不是很紧密。
+
+所有的 css 文件都存放于`/css`目录下。在这些 css 文件中，你可能会注意到，几乎所有文件后缀都为`.min.css`，带有 min 的文件都是经过压缩只剩一行的文件（压缩后文件变小，浏览器加载速度更快）。
+
+其中，`reset.min.css`是所有页面都必须引入的 css 样式表，它用于初始化页面样式。然后则是对剩下几个文件的解释：
+
+`index.min.css`: 用于 _主页_ 的样式表。
+`article.min.css`: 用于含 _文段内容的文章页面_ 样式表。
+`article_index.min.css`: 用于 _文章列表页面_ 的样式表。
+`novel.min.css`: 用于 _含小说内容的小说页面_ 样式表。
+`novel_index.min.css`: 用于 _小说列表页面_ 的样式表。
+`novel_catalog.min.css`: 用于 _小说目录页面_ 的样式表。
+`image.min.css`: 用于 _图片展示页面_ 的样式表。
+
+***
+
+接下来是`less`，所有的 less 文件都存在于`/less`文件夹。项目中所有的 css 文件都是由 less 文件生成，所以在编写样式表的时候，我们只需要对 less 进行编辑，将注释写进 less 中而非 css 中。这样有助于项目的维护。
+
+>如果你按照流程安装了 Easy LESS 插件，并进行了配置之后，每当你进行一次保存，在 less 目录都会自动编译生成一个同名的 css 文件<br>
+>安装 JS & CSS Minifier(Minify) 插件，在想要压缩的 css 文件编辑界面按`CTRL+Shift+p`，然后在顶部输入`Minify: Document`并确定，就会生成一个同名的`.min.css`文件，将其重命名后放入 css，整个修改流程就完成了。<br>
+>如果想要进行调试，可以直接在 `/css` 路径下的相应被引入的样式表中写 css，这样页面中会同步反馈，更加方便。等写完后再将代码剪切到相应 less 文件中进行修改，然后生成新的`.min.css`即可。<br>
+>这里如果有疑惑，可以参考根目录下的[study.md](/study.md)文件，以及对相关内容进行百度。
+
+其中，以 _main_ 开头的文件为主要文件，其中对于需要的 less 文件用`@import`进行链接，前三个文件为所有页面都必须包含的 less 文件，最后一个则是独立的。
+
+以 _下划线_ 开头的 less 文件是被用于链接的模块，其中`_color.less` `_vars.less` `_basic.less` 是每个 _main_ less 文件所必要的链接模块。接下来对每个文件进行解释。
+
+_下划线_ 开头的 less 文件：
+`_color.less`: 存放所有颜色变量
+`_vars.less`: 存放跨文件使用多次的变量
+`_basic.less`: 对于头部导航条和网页底部等所有页面都在使用的公共 html 元素进行渲染的 less 文件模块。
+`_index.less`: 对主页特有元素进行渲染的 less 文件模块。
+`_article.less`: 对带文本的文章页面特有元素进行渲染的 less 文件模块。
+`_article_index.less`: 对文章列表页面特有元素进行渲染的 less 文件模块。
+`_novel.less`: 对带文本的小说页面特有元素进行渲染的 less 文件模块。
+`_novel_index.less`: 对小说列表页面特有元素进行渲染的 less 文件模块。
+`_novel_catalog.less`: 对小说目录页面特有元素进行渲染的 less 文件模块。
+`_img`: 对图片展示页面特有元素进行渲染的 less 文件模块。
+
+_main_ 开头的 less 文件，都是仅对于以上文件的其中若干个形成链接的文件：
+`main.less`: 主页的 less 文件。
+`main_art.less`: 含文段文章页面的 less 文件。
+`main_art_index.less`: 文章列表页面的 less 文件。
+`main_nov.less`: 含文段小说页面的 less 文件。
+`main_nov_index.less`: 小说列表页面的 less 文件。
+`main_nov_catalog.less`: 小说目录页面的 less 文件。
+`main_img.less`: 图片展示页面的 less 文件。
+
+### 主页
+
+#### 模块化操作
+在这里我将对整个项目目前所用的模块化思路进行详细说明，之后遇到类似的模块化思路就不再重点介绍。
+
+一个完整网页的 html 代码可能如下所示，这里用主页的文件`index.html`作为模板示例：
+```
+<!DOCTYPE html>
+<html lang="...">
+
+<head>
+    <meta ...>
+    ...
+
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" href="...">
+    ...
+
+    <!-- 链接 JS 文件 -->
+    <script src="..."></script>
+    ...
+
+    <title>导航栏标题</title>
+</head>
+
+<body>
+    <!-- 头部导航条容器 -->
+    <nav id="topbar-warpper" class="">
+        ...
+    </nav>
+
+    <!-- 网页头部 -->
+    <header class="">
+        <div class="">标题</div>
+    </header>
+
+    <!-- 网页主体部分 -->
+    <main class="">
+        <!-- 侧边（左侧）导航条容器 -->
+        <nav class="sidebar-warpper">
+            <div id="sidebar" class="sidebar">
+                <h1>导航</h1>
+                <ul>
+                    <li><a href="...">...</a></li>
+                    ...
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 右边内容展示部分 -->
+        <div class="display-warpper">
+            <div id="display-part" class="display-part">
+                ...
+            </div>
+        </div>
+    </main>
+
+    <!-- 网页底部 -->
+    <footer class="footer-warpper">
+        ...
+    </footer>
+</body>
+
+</html>
+```
+这个网页有五个部分，分别是
+1. head 标签，对于网页的一堆设置和文件引用。
+2. body 标签，顶部导航条
+3. body 标签，左侧导航栏
+4. body 标签，右侧内容展示
+5. body 标签，网页底部
+
+其中有三个部分(head 中共有的样式表与 js 文件, 头部导航条 以及 网页底部)在整个项目的所有页面中都用得到，如果每个页面都进行复制粘贴，需要修改的时候就必须挨个文件挨个文件来改，十分不方便。所以，我们可以写一个 js 文件来分离这些公共部分。
+
+于是，页面代码可以写成如下形式。
+```
+<!DOCTYPE html>
+<html lang="...">
+
+<head>
+    <template id="head">
+        <!-- js 引入 -->
+    </template>
+
+    <!-- 引入私有样式表 -->
+    <link rel="stylesheet" href="...">
+    ...
+
+    <!-- 链接私有 JS 文件 -->
+    <script src="..."></script>
+    ...
+
+    <title>导航栏标题</title>
+</head>
+
+<body>
+    <!-- 头部导航条容器 -->
+    <nav id="topbar-warpper" class="">
+        <!-- js 引入 -->
+    </nav>
+
+    <!-- 网页头部 -->
+    <header class="">
+        <div class="">标题</div>
+    </header>
+
+    <!-- 网页主体部分 -->
+    <main class="">
+        <!-- 侧边（左侧）导航条容器 -->
+        <nav class="sidebar-warpper">
+            <div id="sidebar" class="sidebar">
+                <h1>导航</h1>
+                <ul>
+                    <li><a href="...">...</a></li>
+                    ...
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 右边内容展示部分 -->
+        <div class="display-warpper">
+            <div id="display-part" class="display-part">
+                ...
+            </div>
+        </div>
+    </main>
+
+    <!-- 网页底部 -->
+    <footer class="footer-warpper">
+        <!-- js 引入 -->
+    </footer>
+</body>
+
+</html>
+```
+
+项目中使用`/js/main.js`这一 js 文件来处理这一模块化操作，因此，该文件也是必须被所有页面包含的 js 文件之一。被分离出来的部分代码则被放在了`/templates`目录下的`head.html`、`topbar.html`以及`footer.html`中。
+
 

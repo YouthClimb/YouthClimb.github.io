@@ -43,7 +43,7 @@ https://github.com/YouthClimb/UseOfGit
 
 没错，这个文档是上传于 Github 的。在看文档学习时，如果你觉得写的有些难懂，也可以去看此仓库中上传的 pdf 文件，那是一个专门的 Git 教程，文档是这本教程的简化。
 
-![仓库中的pdf教程文件](/image/contributing/%E4%BB%93%E5%BA%93%E4%B8%AD%E7%9A%84pdf%E6%95%99%E7%A8%8B%E6%96%87%E4%BB%B6.png)
+![仓库中的pdf教程文件](/image/study/%E4%BB%93%E5%BA%93%E4%B8%AD%E7%9A%84pdf%E6%95%99%E7%A8%8B%E6%96%87%E4%BB%B6.png)
 
 参考链接: [Git 的使用(百度)](https://www.baidu.com/s?ie=UTF-8&wd=git%E7%9A%84%E4%BD%BF%E7%94%A8)
 
@@ -128,7 +128,7 @@ vscode 的安装教程:
 
 接着配置终端，从顶部导航栏点击 `文件`，选择 `首选项`，再选择 `设置` 进入设置界面，然后点击右上方的 `打开设置(json)`。
 
-![终端设置1](/image/contributing/%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE1.png)
+![终端设置1](/image/study/%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE1.png)
 
 这时会弹出一个名为 `settings.json` 的文件。找到 `"terminal.integrated.profiles.windows"` 字段，它可能是这样的（这是我的配置，仅供参考，建议不要复制粘贴）。
 
