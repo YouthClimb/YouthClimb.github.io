@@ -1,0 +1,117 @@
+---
+import type { Entry, Novel, SiteRoute } from '../lib/content';
+import { chaptersFor, novelUrl, urlFor, dateLabel } from '../lib/content';
+import Icon from './Icon.astro';
+interface Props {
+  route: SiteRoute;
+  entries: Entry[];
+  novels: Novel[];
+}
+const { route, entries, novels } = Astro.props;
+const novel = route.novel;
+const chapters = novel
+  ? [...route.entries].sort(
+      (a, b) =>
+        (a.data.chapter ?? Infinity) - (b.data.chapter ?? Infinity) ||
+        a.data.published.valueOf() - b.data.published.valueOf(),
+    )
+  : [];
+const volumes = [
+  ...new Set(chapters.map((entry) => entry.data.categories.slice(2).join(' / ') || '已上传章节')),
+];
+---
+
+<div class="container inner-page novels-page">
+  <header class="page-heading">
+    <a class="back-link" href={novel ? '/novels/' : '/'}>
+      {novel ? '← 返回小说板块' : '← 回到首页'}
+    </a>
+    <span class="eyebrow">{novel ? 'NOVEL · CHAPTERS' : 'THE FICTION SHELF'}</span>
+    <h1>
+      {novel ? `《${novel.data.title}》` : '小说'}
+      <span class="small-dot">.</span>
+    </h1>
+    <p>
+      {novel ? novel.data.description : '这里寄放朋友们创作的小说，作品中的情节与人物属于虚构。'}
+      <br />
+      {novel
+        ? `已收录 ${chapters.length} 章，保留原有章节编号。`
+        : `共 ${novels.length} 部作品，独立于共同经历记录。`}
+    </p>
+  </header>
+  {novel ? (
+    <div class="novel-layout">
+      <section aria-label={`${novel.data.title}章节目录`}>
+        {volumes.map((volume) => (
+          <section class="chapter-group">
+            <h2>{volume}</h2>
+            <ol class="chapter-list">
+              {chapters
+                .filter(
+                  (entry) =>
+                    (entry.data.categories.slice(2).join(' / ') || '已上传章节') === volume,
+                )
+                .map((entry) => (
+                  <li>
+                    <a href={urlFor(entry)}>
+                      <span class="chapter-number">
+                        {String(entry.data.chapter ?? '').padStart(2, '0')}
+                      </span>
+                      <span class="chapter-title">{entry.data.title}</span>
+                      <time datetime={entry.data.published.toISOString()}>
+                        {dateLabel(entry.data.published)}
+                      </time>
+                      <Icon name="arrow" size={18} />
+                    </a>
+                  </li>
+                ))}
+            </ol>
+          </section>
+        ))}
+        {chapters.length === 0 && <p class="novel-note">这部小说暂未上传章节。</p>}
+      </section>
+      <aside class="novel-info">
+        <span class="eyebrow">ORIGINAL FICTION</span>
+        <h2>创作寄存处</h2>
+        <p>这里是小说的阅读空间。所有已上传章节集中收录，按章节顺序阅读。</p>
+        <a href="/novels/">浏览全部小说 →</a>
+        <a href="/">返回共同经历首页 →</a>
+      </aside>
+    </div>
+  ) : (
+    <div class="novel-shelf">
+      {novels.map((book, index) => {
+        const bookChapters = chaptersFor(entries, book.id);
+        return (
+          <article class="novel-card">
+            <a class="novel-cover" href={novelUrl(book.id)}>
+              <span class="eyebrow">YOUTHCLIMB · ORIGINAL FICTION</span>
+              <Icon name="book" size={42} />
+              <h2>{book.data.title}</h2>
+              <span class="novel-cover-footer">
+                小说寄存 / {String(index + 1).padStart(2, '0')}
+              </span>
+            </a>
+            <div class="novel-card-details">
+              <h3>
+                <a href={novelUrl(book.id)}>《{book.data.title}》</a>
+              </h3>
+              <p>{book.data.description}</p>
+              <div>
+                <span>{bookChapters.length} 章已上传</span>
+                <a href={novelUrl(book.id)}>
+                  查看章节 <Icon name="arrow" size={17} />
+                </a>
+              </div>
+              {bookChapters[0] && (
+                <a class="novel-start" href={urlFor(bookChapters[0])}>
+                  从已上传的第一章读起 →
+                </a>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  )}
+</div>

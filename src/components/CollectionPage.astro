@@ -1,0 +1,127 @@
+---
+import {
+  type Entry,
+  type SiteRoute,
+  categoriesFor,
+  tagsFor,
+  categoryUrl,
+  tagUrl,
+  monthKey,
+  urlFor,
+  dateLabel,
+} from '../lib/content';
+import Sidebar from './Sidebar.astro';
+import EntryCard from './EntryCard.astro';
+import Icon from './Icon.astro';
+import EmptyState from './EmptyState.astro';
+interface Props {
+  route: SiteRoute;
+  entries: Entry[];
+}
+const { route, entries } = Astro.props;
+const isArchive = route.kind === 'archive';
+const groups = [...new Set(route.entries.map((entry) => monthKey(entry.data.published)))];
+const descriptions = {
+  archive: '沿着时间，重温那些一起写下的日子。',
+  categories: '按主题浏览共同经历。',
+  tags: '浏览共同经历与原创小说的标签，内容分别标明归属。',
+  category: '浏览这个分类下的内容。',
+  tag: '浏览带有这个标签的内容。',
+};
+---
+
+<div class="container inner-page">
+  <header class="page-heading">
+    <a class="back-link" href="/">
+      ← 回到首页
+    </a>
+    <span class="eyebrow">{isArchive ? 'THE TIMELINE' : 'EXPLORE OUR STORIES'}</span>
+    <h1>
+      {route.title}
+      <span class="small-dot">.</span>
+    </h1>
+    <p>
+      {descriptions[route.kind as keyof typeof descriptions]}{' '}
+      <span class="muted">
+        共 {route.entries.length} 篇{route.scope === 'all' ? '内容' : '共同经历'}
+      </span>
+    </p>
+  </header>
+  <div class="content-grid">
+    <section aria-label={route.title}>
+      {route.entries.length === 0 && <EmptyState />}
+      {route.kind === 'categories' ? (
+        <div class="collection-grid">
+          {categoriesFor(entries).map((category, index) => (
+            <a class="collection-card" href={categoryUrl(category.parts)}>
+              <span class="eyebrow">COLLECTION {String(index + 1).padStart(2, '0')}</span>
+              <Icon name="book" size={28} />
+              <h2>{category.name}</h2>
+              <p>{category.parts.join(' / ')}</p>
+              <div>
+                <span>{category.entries.length} 篇故事</span>
+                <Icon name="arrow" />
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : route.kind === 'tags' ? (
+        <div class="tag-index">
+          {tagsFor(entries).map((tag) => (
+            <a href={tagUrl(tag.name)}>
+              <span># {tag.name}</span>
+              <span>
+                {tag.entries.length} 篇 <Icon name="arrow" size={18} />
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : isArchive ? (
+        <div class="timeline">
+          {groups.map((month) => (
+            <section class="timeline-group">
+              <h2>
+                <a href={`/archives/${month.slice(0, 4)}/`}>{month.slice(0, 4)}</a>
+                <a href={`/archives/${month.replace('-', '/')}/`}>{Number(month.slice(5))} 月</a>
+              </h2>
+              <ol>
+                {route.entries
+                  .filter((entry) => monthKey(entry.data.published) === month)
+                  .map((entry) => (
+                    <li>
+                      <time datetime={entry.data.published.toISOString()}>
+                        {dateLabel(entry.data.published).slice(5)}
+                      </time>
+                      <div>
+                        <a href={urlFor(entry)}>{entry.data.title}</a>
+                        <span>{entry.data.categories.join(' / ') || '日常记录'}</span>
+                      </div>
+                      <a
+                        class="timeline-arrow"
+                        href={urlFor(entry)}
+                        aria-label={`阅读 ${entry.data.title}`}
+                      >
+                        <Icon name="arrow" size={19} />
+                      </a>
+                    </li>
+                  ))}
+              </ol>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div class="entry-list">
+          {route.entries.map((entry, index) => (
+            <EntryCard entry={entry} index={index} />
+          ))}
+        </div>
+      )}
+      <div class="journal-end">
+        <span>✳</span>
+        <p>{route.scope === 'all' ? '每份内容，都有自己的位置。' : '生活还长，慢慢记录。'}</p>
+        <a href="/">继续翻翻 →</a>
+      </div>
+    </section>
+    <Sidebar entries={entries} scope={route.scope} />
+  </div>
+</div>

@@ -1,0 +1,32 @@
+{
+  "name": "youthclimb",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "check": "astro check",
+    "build": "astro build",
+    "preview": "astro preview",
+    "verify": "node scripts/verify-build.mjs",
+    "test:e2e": "playwright test tests/site.spec.ts",
+    "test:growth": "node scripts/verify-content-growth.mjs",
+    "new": "node scripts/new-entry.mjs",
+    "format": "prettier --write src scripts tests astro.config.mjs playwright.config.ts package.json tsconfig.json"
+  },
+  "dependencies": {
+    "astro": "7.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.19.2",
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "1.1.2",
+    "typescript": "6.0.3"
+  }
+}

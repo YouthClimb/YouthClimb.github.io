@@ -1,0 +1,127 @@
+---
+import {
+  type Entry,
+  categoriesFor,
+  tagsFor,
+  categoryUrl,
+  tagUrl,
+  urlFor,
+  monthKey,
+} from '../lib/content';
+import Icon from './Icon.astro';
+interface Props {
+  entries: Entry[];
+  scope?: 'memories' | 'all';
+}
+const { entries, scope = 'memories' } = Astro.props;
+const categories = categoriesFor(entries);
+const tags = tagsFor(entries);
+const months = [...new Set(entries.map((entry) => monthKey(entry.data.published)))];
+---
+
+<aside class="sidebar" aria-label="探索记录">
+  {scope === 'memories' && (
+    <section class="about-note">
+      <span class="eyebrow">A NOTE TO OURSELVES</span>
+      <Icon name="mountain" size={36} />
+      <h2>
+        我们的故事，
+        <br />
+        还在继续。
+      </h2>
+      <p>
+        不必是惊天动地的大事。
+        <br />
+        那些一起度过的普通日子，
+        <br />
+        也有值得收藏的光。
+      </p>
+      <a href="/archives/">
+        查看共同经历归档 <Icon name="arrow" size={17} />
+      </a>
+    </section>
+  )}
+  <section class="side-section fiction-entry">
+    <div class="side-heading">
+      <h2>小说寄存</h2>
+      <span>FICTION</span>
+    </div>
+    <p>朋友们创作的小说，在独立板块阅读。</p>
+    <a href="/novels/">
+      进入小说板块 <Icon name="arrow" size={17} />
+    </a>
+  </section>
+  {categories.length > 0 && (
+    <section class="side-section">
+      <div class="side-heading">
+        <h2>{scope === 'all' ? '内容分类' : '经历分类'}</h2>
+        <span>COLLECTIONS</span>
+      </div>
+      <ul class="category-list">
+        {categories.map((category) => (
+          <li style={`--depth: ${category.parts.length - 1}`}>
+            <a href={categoryUrl(category.parts)}>
+              <span>
+                {category.parts.length > 1 && <span class="branch">↳</span>}
+                {category.name}
+              </span>
+              <span class="count">{category.entries.length}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+  {tags.length > 0 && (
+    <section class="side-section">
+      <div class="side-heading">
+        <h2>标签云</h2>
+        <a href="/tags/">全部 ↗</a>
+      </div>
+      <div class="tag-cloud">
+        {tags.map((tag) => (
+          <a href={tagUrl(tag.name)} style={`--weight: ${Math.min(tag.entries.length, 5)}`}>
+            <span>#</span> {tag.name}
+            <small>{tag.entries.length}</small>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+  {months.length > 0 && scope === 'memories' && (
+    <section class="side-section">
+      <div class="side-heading">
+        <h2>时光归档</h2>
+        <span>BY MONTH</span>
+      </div>
+      <ul class="month-list">
+        {months.map((month) => (
+          <li>
+            <a href={`/archives/${month.replace('-', '/')}/`}>
+              {month.slice(0, 4)} 年 {Number(month.slice(5))} 月
+              <span class="count">
+                {entries.filter((entry) => monthKey(entry.data.published) === month).length}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+  {entries.length > 0 && (
+    <section class="side-section">
+      <div class="side-heading">
+        <h2>{scope === 'all' ? '最近内容' : '最近记录'}</h2>
+        <span>LATEST</span>
+      </div>
+      <ol class="latest-list">
+        {entries.slice(0, 5).map((entry, index) => (
+          <li>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <a href={urlFor(entry)}>{entry.data.title}</a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+</aside>

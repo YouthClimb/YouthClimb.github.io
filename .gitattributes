@@ -1,0 +1,6 @@
+* text=auto
+
+# Keep the migration baseline byte-for-byte on Windows and Linux.
+src/content/entries/** -text
+public/media/legacy/** -text
+archive/*.zip binary

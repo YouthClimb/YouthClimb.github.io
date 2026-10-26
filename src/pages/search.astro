@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Base title="搜索记录">
+  <div class="container inner-page search-page">
+    <header class="page-heading">
+      <a class="back-link" href="/">
+        ← 回到首页
+      </a>
+      <span class="eyebrow">SEARCH THE SITE</span>
+      <h1>
+        搜索站内内容<span class="small-dot">.</span>
+      </h1>
+      <p>搜索共同经历、原创小说与旧站文档；结果会注明内容归属。</p>
+    </header>
+    <form class="search-form" role="search" action="/search/" method="get">
+      <Icon name="search" size={22} />
+      <label class="sr-only" for="search-input">
+        搜索关键词
+      </label>
+      <input
+        id="search-input"
+        name="q"
+        type="search"
+        placeholder="比如：孟槐、运动会、PT…"
+        autocomplete="off"
+        autofocus
+      />
+      <button class="primary-button" type="submit">
+        搜索记录
+      </button>
+    </form>
+    <p class="search-status" id="search-status" role="status" aria-live="polite">
+      输入关键词，搜索共同经历、小说与旧站文档。
+    </p>
+    <noscript>
+      <p class="search-status">
+        站内全文搜索需要启用 JavaScript。你也可以通过<a href="/archives/">时光归档</a>或
+        <a href="/novels/">小说板块</a>浏览内容。
+      </p>
+    </noscript>
+    <div class="search-results" id="search-results" aria-label="搜索结果"></div>
+  </div>
+  <script src="../scripts/search.ts"></script>
+</Base>

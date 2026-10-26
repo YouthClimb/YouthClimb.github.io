@@ -1,0 +1,53 @@
+---
+import {
+  type Entry,
+  urlFor,
+  excerpt,
+  dateLabel,
+  readingTime,
+  categoryUrl,
+  sectionLabel,
+} from '../lib/content';
+import Icon from './Icon.astro';
+interface Props {
+  entry: Entry;
+  index?: number;
+}
+const { entry, index = 0 } = Astro.props;
+const category = entry.data.categories;
+---
+
+<article class="entry-card">
+  <div class="entry-number" aria-hidden="true">
+    {String(index + 1).padStart(2, '0')}
+  </div>
+  <div class="entry-card-body">
+    <div class="entry-meta">
+      <span>{sectionLabel(entry)}</span>
+      <span class="meta-dot">·</span>
+      <time datetime={entry.data.published.toISOString()}>{dateLabel(entry.data.published)}</time>
+      <span class="meta-dot">·</span>
+      {category.length ? (
+        <a href={categoryUrl(category)}>{category.at(-1)}</a>
+      ) : (
+        <span>{sectionLabel(entry)}</span>
+      )}
+      <span class="reading-time">{readingTime(entry)} 分钟阅读</span>
+    </div>
+    <h3>
+      <a href={urlFor(entry)}>{entry.data.title}</a>
+    </h3>
+    {entry.data.cover && (
+      <a class="entry-cover" href={urlFor(entry)}>
+        <img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} loading="lazy" />
+      </a>
+    )}
+    <p class="entry-excerpt">{excerpt(entry)}</p>
+    <div class="entry-bottom">
+      <span>{entry.data.author}</span>
+      <a class="read-link" href={urlFor(entry)}>
+        {entry.data.section === 'novels' ? '阅读章节' : '阅读全文'} <Icon name="arrow" size={17} />
+      </a>
+    </div>
+  </div>
+</article>

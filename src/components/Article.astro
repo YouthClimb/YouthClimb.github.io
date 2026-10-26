@@ -1,0 +1,278 @@
+---
+import { render } from 'astro:content';
+import {
+  type Entry,
+  type Novel,
+  urlFor,
+  dateLabel,
+  readingTime,
+  categoryUrl,
+  tagUrl,
+  chaptersFor,
+  novelUrl,
+  sectionLabel,
+} from '../lib/content';
+import Icon from './Icon.astro';
+interface Props {
+  entry: Entry;
+  entries: Entry[];
+  novels: Novel[];
+}
+const { entry, entries, novels } = Astro.props;
+const { Content, headings } = await render(entry);
+const isNovel = entry.data.section === 'novels';
+const novel = novels.find((item) => item.id === entry.data.novel);
+const related = isNovel
+  ? chaptersFor(entries, entry.data.novel!)
+  : entries.filter((item) => item.data.section === entry.data.section);
+const index = related.findIndex((item) => item.id === entry.id);
+const newer = related[index - 1];
+const older = related[index + 1];
+const category = entry.data.categories;
+const series = isNovel
+  ? related
+  : category.length > 1
+    ? entries
+        .filter(
+          (item) => item.data.categories.slice(0, 2).join('/') === category.slice(0, 2).join('/'),
+        )
+        .sort((a, b) => a.data.published.valueOf() - b.data.published.valueOf())
+    : [];
+const canonical = new URL(urlFor(entry), Astro.site).href;
+const shareUrl = encodeURIComponent(canonical);
+---
+
+<div class="reading-progress" aria-hidden="true">
+  <span id="reading-progress"></span>
+</div>
+<div class="container article-page">
+  <nav class="breadcrumbs" aria-label="面包屑">
+    <a href="/">首页</a>
+    {isNovel && (
+      <>
+        <span>/</span>
+        <a href="/novels/">小说</a>
+        <span>/</span>
+        <a href={novelUrl(entry.data.novel!)}>{novel?.data.title}</a>
+      </>
+    )}
+    {!isNovel &&
+      category.map((name, i) => (
+        <>
+          <span>/</span>
+          <a href={categoryUrl(category.slice(0, i + 1))}>{name}</a>
+        </>
+      ))}
+    <span>/</span>
+    <span aria-current="page">正文</span>
+  </nav>
+  <div class="article-layout">
+    <article class="story">
+      <header class="story-header">
+        <div class="eyebrow">
+          {sectionLabel(entry)}
+          {novel && ` · ${novel.data.title}`} · {dateLabel(entry.data.published)}
+        </div>
+        <h1>{entry.data.title}</h1>
+        <div class="story-byline">
+          <span class="author-avatar" aria-hidden="true">
+            YC
+          </span>
+          <span>{entry.data.author}</span>
+          <span class="meta-dot">·</span>
+          <span>{readingTime(entry)} 分钟阅读</span>
+        </div>
+      </header>
+      <div class="reading-toolbar">
+        <span>
+          {isNovel
+            ? '原创小说 · 虚构作品'
+            : entry.data.section === 'legacy'
+              ? '保留的旧站文档'
+              : '慢慢读，记下这些日常。'}
+        </span>
+        <div>
+          <button type="button" id="font-smaller" aria-label="缩小正文字号">
+            A−
+          </button>
+          <button type="button" id="font-larger" aria-label="放大正文字号">
+            A+
+          </button>
+          <span id="font-status" class="sr-only" aria-live="polite"></span>
+          <button type="button" id="share-button">
+            <Icon name="link" size={16} /> 分享
+          </button>
+        </div>
+      </div>
+      {entry.data.cover && (
+        <figure class="story-cover">
+          <img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} />
+        </figure>
+      )}
+      <div class="prose" id="story-content">
+        <Content />
+      </div>
+      <footer class="story-footer">
+        <div class="story-tags">
+          {entry.data.tags.map((tag) => (
+            <a href={tagUrl(tag)}># {tag}</a>
+          ))}
+        </div>
+        <p>
+          写于 {dateLabel(entry.data.published)}
+          {entry.data.updated &&
+            entry.data.updated.valueOf() !== entry.data.published.valueOf() && (
+              <> · 更新于 {dateLabel(entry.data.updated)}</>
+            )}
+        </p>
+      </footer>
+      <nav class="article-navigation" aria-label="相邻文章">
+        {newer ? (
+          <a href={urlFor(newer)}>
+            <span>{isNovel ? '← 上一章' : '← 前一篇'}</span>
+            <strong>{newer.data.title}</strong>
+          </a>
+        ) : (
+          <span></span>
+        )}
+        {older && (
+          <a href={urlFor(older)}>
+            <span>{isNovel ? '下一章 →' : '后一篇 →'}</span>
+            <strong>{older.data.title}</strong>
+          </a>
+        )}
+      </nav>
+    </article>
+    <aside class="article-aside">
+      <a
+        class="back-link"
+        href={
+          isNovel
+            ? novelUrl(entry.data.novel!)
+            : entry.data.section === 'legacy'
+              ? '/'
+              : '/archives/'
+        }
+      >
+        {isNovel
+          ? `← 《${novel?.data.title}》章节目录`
+          : entry.data.section === 'legacy'
+            ? '← 返回首页'
+            : '← 所有共同经历'}
+      </a>
+      {series.length > 0 && (
+        <section class="side-section">
+          <div class="side-heading">
+            <h2>{novel?.data.title ?? category[1]} · 目录</h2>
+          </div>
+          <ol class="series-list">
+            {series.map((item) => (
+              <li>
+                <a href={urlFor(item)} aria-current={item.id === entry.id ? 'page' : undefined}>
+                  {item.data.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+      {headings.length > 0 && (
+        <section class="side-section">
+          <div class="side-heading">
+            <h2>本篇目录</h2>
+          </div>
+          <ol class="toc-list">
+            {headings.map((heading) => (
+              <li style={`--depth:${Math.max(0, heading.depth - 2)}`}>
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+      <div class="aside-quote">
+        <Icon name="mountain" size={30} />
+        <p>
+          {isNovel
+            ? '写下另一个世界，'
+            : entry.data.section === 'legacy'
+              ? '旧页留存，'
+              : '每一段经历，'}
+          <br />
+          {isNovel
+            ? '把想象留在这里。'
+            : entry.data.section === 'legacy'
+              ? '记录网站的起点。'
+              : '都是我们来过的证明。'}
+        </p>
+        <span>CLIMBING & PLAYING</span>
+      </div>
+    </aside>
+  </div>
+</div>
+<dialog id="share-dialog" class="share-dialog" aria-labelledby="share-title">
+  <div class="dialog-heading">
+    <h2 id="share-title">把故事分享给朋友</h2>
+    <button type="button" data-close-dialog aria-label="关闭分享">
+      <Icon name="close" />
+    </button>
+  </div>
+  <p>{entry.data.title}</p>
+  <label for="share-url">文章链接</label>
+  <input id="share-url" readonly value={canonical} />
+  <div class="share-actions">
+    <button class="primary-button" type="button" id="copy-link">
+      复制链接
+    </button>
+    <button type="button" id="native-share">
+      系统分享
+    </button>
+  </div>
+  <p id="share-status" role="status"></p>
+  <div class="social-links">
+    <a
+      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${shareUrl}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      X / Twitter ↗
+    </a>
+    <a
+      href={`https://www.facebook.com/sharer.php?u=${shareUrl}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Facebook ↗
+    </a>
+    <a
+      href={`https://pinterest.com/pin/create/button/?url=${shareUrl}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Pinterest ↗
+    </a>
+    <a
+      href={`https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      LinkedIn ↗
+    </a>
+  </div>
+</dialog>
+<dialog id="image-dialog" class="image-dialog" aria-label="图片预览">
+  <button type="button" data-close-dialog aria-label="关闭图片预览">
+    <Icon name="close" size={24} />
+  </button>
+  <button type="button" id="image-prev" aria-label="上一张图片">
+    ←
+  </button>
+  <figure>
+    <img id="preview-image" alt="" />
+    <figcaption id="image-caption"></figcaption>
+  </figure>
+  <button type="button" id="image-next" aria-label="下一张图片">
+    →
+  </button>
+</dialog>
+<script src="../scripts/reader.ts"></script>

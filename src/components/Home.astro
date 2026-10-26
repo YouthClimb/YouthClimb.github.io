@@ -1,0 +1,141 @@
+---
+import { site } from '../data/site';
+import { type Entry, type SiteRoute, categoriesFor, categoryUrl } from '../lib/content';
+import EntryCard from './EntryCard.astro';
+import Sidebar from './Sidebar.astro';
+import Icon from './Icon.astro';
+import EmptyState from './EmptyState.astro';
+interface Props {
+  route: SiteRoute;
+  entries: Entry[];
+}
+const { route, entries } = Astro.props;
+const collections = categoriesFor(entries).filter((category) => category.parts.length === 1);
+---
+
+<div class="container home-page">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <div class="eyebrow">
+        <span class="status-dot"></span> OUR SHARED DAYS · 始于 {site.since}
+      </div>
+      <h1 id="hero-title">
+        一起走过的日子，
+        <br />
+        都有迹可
+        <span class="accent-word">
+          循
+          <svg viewBox="0 0 120 12" fill="none" aria-hidden="true">
+            <path
+              d="M3 9C34 1 76 1 117 6"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+          </svg>
+        </span>
+        。
+      </h1>
+      <p>
+        这里是一群朋友的共同记录。
+        <br />
+        留住一起走过的路，和那些值得记下的日常。
+      </p>
+      <a class="primary-link" href="#stories">
+        查看共同经历 <Icon name="arrow" size={18} />
+      </a>
+      <span class="hero-caption">Climbing together. Playing forever.</span>
+    </div>
+    <figure class="hero-visual">
+      <img
+        src="/media/banner.jpg"
+        alt="星空下，地球的地平线泛起晨光"
+        width="1920"
+        height="1200"
+        fetchpriority="high"
+      />
+      <div class="photo-overlay"></div>
+      <div class="photo-label">
+        <span>THE VIEW WE SHARE</span>
+        <span>01 / ∞</span>
+      </div>
+      <figcaption>
+        去更远的地方，
+        <br />
+        也记得回头看看。<span>YouthClimb · 我们的共同视野</span>
+      </figcaption>
+      <div class="photo-stamp">
+        YC
+        <br />
+        <span>EST. 2023</span>
+      </div>
+    </figure>
+  </section>
+  <div class="home-divider">
+    <span>留一处地方，记录我们一起度过的日子。</span>
+    <span>
+      {String(entries.length).padStart(2, '0')} 篇记录 <span class="divider-dot">/</span>{' '}
+      {String(collections.length).padStart(2, '0')} 类共同经历
+    </span>
+  </div>
+  <div class="content-grid" id="stories">
+    <section aria-labelledby="stories-heading">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">THE JOURNAL</span>
+          <h2 id="stories-heading">
+            共同经历<span class="small-dot">.</span>
+          </h2>
+        </div>
+        <a href="/archives/">
+          全部归档 <Icon name="arrow" size={17} />
+        </a>
+      </div>
+      <nav class="filter-tabs" aria-label="按共同经历分类">
+        <a class="active" href="/#stories" aria-current="page">
+          全部记录 <span>{entries.length}</span>
+        </a>
+        {collections.map((category) => (
+          <a href={categoryUrl(category.parts)}>
+            {category.name} <span>{category.entries.length}</span>
+          </a>
+        ))}
+      </nav>
+      <div class="entry-list">
+        {route.entries.map((entry, index) => (
+          <EntryCard entry={entry} index={((route.page ?? 1) - 1) * site.pageSize + index} />
+        ))}
+      </div>
+      {route.entries.length === 0 && <EmptyState />}
+      {(route.pages ?? 0) > 1 && (
+        <nav class="pagination" aria-label="记录分页">
+          <span>
+            第 {route.page} / {route.pages} 页
+          </span>
+          <div>
+            {Array.from({ length: route.pages ?? 1 }, (_, index) => (
+              <a
+                href={index === 0 ? '/#stories' : `/page/${index + 1}/#stories`}
+                aria-label={`第 ${index + 1} 页`}
+                aria-current={route.page === index + 1 ? 'page' : undefined}
+              >
+                {String(index + 1).padStart(2, '0')}
+              </a>
+            ))}
+            {route.page! < route.pages! && (
+              <a href={`/page/${route.page! + 1}/#stories`} aria-label="下一页">
+                <Icon name="arrow" size={18} />
+              </a>
+            )}
+          </div>
+        </nav>
+      )}
+      <div class="journal-end">
+        <span>✳</span>
+        <p>生活还长，慢慢记录。</p>
+        <span>TO BE CONTINUED</span>
+      </div>
+    </section>
+    <Sidebar entries={entries} />
+  </div>
+</div>

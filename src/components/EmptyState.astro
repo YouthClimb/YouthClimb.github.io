@@ -1,0 +1,17 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = '共同经历，等待上传。',
+  description = '目前还没有上传共同经历或其他文档。等内容准备好，再把这些日子留在这里。',
+} = Astro.props;
+---
+
+<div class="empty-state">
+  <span class="eyebrow">NOTHING UPLOADED YET</span>
+  <h2>{title}</h2>
+  <p>{description}</p>
+  <a href="/novels/">去看看寄放的小说 →</a>
+</div>

@@ -1,0 +1,8 @@
+archive/
+public/media/legacy/
+src/content/entries/
+dist/
+node_modules/
+.astro/
+test-results/
+package-lock.json

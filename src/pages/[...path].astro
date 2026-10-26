@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Home from '../components/Home.astro';
+import CollectionPage from '../components/CollectionPage.astro';
+import Article from '../components/Article.astro';
+import Novels from '../components/Novels.astro';
+import {
+  allEntries,
+  allNovels,
+  isMemory,
+  routesFor,
+  excerpt,
+  type SiteRoute,
+} from '../lib/content';
+export async function getStaticPaths() {
+  const entries = await allEntries();
+  const novels = await allNovels();
+  return routesFor(entries, novels).map((route) => ({
+    params: { path: route.path },
+    props: { route, entries, novels },
+  }));
+}
+interface Props {
+  route: SiteRoute;
+  entries: Awaited<ReturnType<typeof allEntries>>;
+  novels: Awaited<ReturnType<typeof allNovels>>;
+}
+const { route, entries, novels } = Astro.props;
+const entry = route.entry;
+---
+
+<Base
+  title={
+    route.kind === 'home' && route.page === 1
+      ? undefined
+      : route.kind === 'home'
+        ? `共同记录 · 第 ${route.page} 页`
+        : route.title
+  }
+  description={entry ? excerpt(entry) : undefined}
+  image={entry?.data.cover}
+  article={!!entry}
+  published={entry?.data.published}
+  updated={entry?.data.updated}
+>
+  {entry ? (
+    <Article entry={entry} entries={entries} novels={novels} />
+  ) : route.kind === 'home' ? (
+    <Home route={route} entries={entries.filter(isMemory)} />
+  ) : route.kind === 'novels' || route.kind === 'novel' ? (
+    <Novels route={route} entries={entries} novels={novels} />
+  ) : (
+    <CollectionPage
+      route={route}
+      entries={route.scope === 'all' ? entries : entries.filter(isMemory)}
+    />
+  )}
+</Base>
